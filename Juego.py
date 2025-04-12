@@ -1,22 +1,21 @@
-# juego_con_intentos_limitados.py
+# juego_con_pistas_estrategicas.py
 from utils import generar_numero_aleatorio
 
 def iniciar_juego():
-    print("🎯 ¡Bienvenido al desafío de adivinar el número!")
+    print("🎯 ¡Bienvenido al juego de adivinar el número con pistas!")
     numero_secreto = generar_numero_aleatorio(1, 10)
-    intentos_maximos = 5
     intentos = 0
 
-    print(f"Estoy pensando en un número entre 1 y 10. Tienes {intentos_maximos} intentos para adivinarlo.\n")
+    print(f"\nEstoy pensando en un número entre 1 y 10. ¡Adivina cuál es!")
 
-    while intentos < intentos_maximos:
-        respuesta = input("Tu número: ")
+    while True:
+        intento = input("Tu número: ")
 
-        if not respuesta.isdigit():
-            print("Por favor, escribe un número válido.\n")
+        if not intento.isdigit():
+            print("Eso no es un número. Intenta de nuevo.\n")
             continue
 
-        numero = int(respuesta)
+        numero = int(intento)
         intentos += 1
 
         if numero < numero_secreto:
@@ -24,12 +23,16 @@ def iniciar_juego():
         elif numero > numero_secreto:
             print("Muy alto.\n")
         else:
-            print(f"🎉 ¡Correcto! Adivinaste el número en {intentos} intento(s).")
+            print(f"🎉 ¡Felicidades! Adivinaste el número en {intentos} intento(s).")
             break
-    else:
-        print(f"❌ Se acabaron los intentos. El número correcto era {numero_secreto}.")
 
-    mensaje_despedida()
+        # Aquí se dan pistas cada cierto número de intentos
+        if intentos == 3:
+            print("💡 Pista: Estás cerca, el número está en el rango de 5-10.")
+        elif intentos == 5:
+            print("💡 Pista: El número es mayor que 7.")
+        elif intentos == 7:
+            print("💡 Pista final: El número es menor que 9.")
 
 def mensaje_despedida():
-    print("\nGracias por jugar. ¡Vuelve pronto!")
+    print("\nGracias por jugar. ¡Nos vemos en el siguiente desafío!")
