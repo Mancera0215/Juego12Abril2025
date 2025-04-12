@@ -1,32 +1,37 @@
-# juego_caliente_frio.py
+# juego_por_rondas.py
 from utils import generar_numero_aleatorio
 
-def iniciar_juego():
-    print("¡Bienvenido! Adivina el número que estoy pensando entre 1 y 10.")
+def jugar_una_ronda():
     numero_secreto = generar_numero_aleatorio(1, 10)
     intentos = 0
+    print("\nEstoy pensando en un número entre 1 y 10. ¡Adivina cuál es!")
 
     while True:
-        intento = input("¿Cuál es tu número?: ")
+        intento = input("Tu número: ")
 
         if not intento.isdigit():
-            print("Entrada inválida. Escribe un número por favor.")
+            print("Eso no es un número. Intenta de nuevo.")
             continue
 
         numero = int(intento)
         intentos += 1
-        diferencia = abs(numero - numero_secreto)
 
-        if numero == numero_secreto:
-            print(f"🎉 ¡Increíble! Adivinaste el número en {intentos} intento(s).")
-            break
+        if numero < numero_secreto:
+            print("Muy bajo.\n")
+        elif numero > numero_secreto:
+            print("Muy alto.\n")
         else:
-            if diferencia <= 2:
-                print("🔥 ¡Caliente! Estás muy cerca.\n")
-            elif diferencia <= 5:
-                print("🌡️ Tibio, sigue intentando.\n")
-            else:
-                print("❄️ Frío, estás lejos.\n")
+            print(f"🎉 ¡Correcto! Adivinaste en {intentos} intento(s).")
+            break
+
+def iniciar_juego():
+    print("🎯 ¡Bienvenido al juego de adivinanza!")
+    while True:
+        jugar_una_ronda()
+        continuar = input("\n¿Quieres jugar otra ronda? (s/n): ").lower()
+        if continuar != 's':
+            break
+    mensaje_despedida()
 
 def mensaje_despedida():
-    print("\n¡Eso fue divertido! ¡Nos vemos en otro juego!")
+    print("\nGracias por jugar varias rondas. ¡Hasta la próxima!")
