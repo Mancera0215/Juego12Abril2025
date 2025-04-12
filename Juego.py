@@ -1,34 +1,50 @@
-# juego_con_intentos_limitados.py
+# juego_con_rango_personalizado.py
 from utils import generar_numero_aleatorio
 
-MAX_INTENTOS = 5
-
 def iniciar_juego():
-    print("🎯 ¡Bienvenido! Tienes 5 intentos para adivinar el número entre 1 y 10.")
-    numero_secreto = generar_numero_aleatorio(1, 10)
-    intentos_realizados = 0
+    print("🎯 ¡Bienvenido al juego de adivinar números!")
 
-    while intentos_realizados < MAX_INTENTOS:
-        intento = input(f"Intento {intentos_realizados + 1} de {MAX_INTENTOS}: ")
+    while True:
+        rango_min = input("Ingresa el número mínimo del rango: ")
+        rango_max = input("Ingresa el número máximo del rango: ")
+
+        if not (rango_min.isdigit() and rango_max.isdigit()):
+            print("Por favor, ingresa solo números.")
+            continue
+
+        rango_min = int(rango_min)
+        rango_max = int(rango_max)
+
+        if rango_min >= rango_max:
+            print("El número mínimo debe ser menor que el máximo. Intenta de nuevo.\n")
+            continue
+
+        break
+
+    numero_secreto = generar_numero_aleatorio(rango_min, rango_max)
+    intentos = 0
+
+    print(f"\nEstoy pensando en un número entre {rango_min} y {rango_max}. ¡Adivínalo!")
+
+    while True:
+        intento = input("Tu número: ")
 
         if not intento.isdigit():
-            print("Por favor ingresa un número válido.")
+            print("Eso no es un número válido.")
             continue
 
         numero = int(intento)
-        intentos_realizados += 1
+        intentos += 1
 
         if numero < numero_secreto:
             print("Muy bajo.\n")
         elif numero > numero_secreto:
             print("Muy alto.\n")
         else:
-            print(f"🎉 ¡Felicidades! Adivinaste el número en {intentos_realizados} intento(s).")
+            print(f"🎉 ¡Correcto! Lo lograste en {intentos} intento(s).")
             break
-    else:
-        print(f"😔 ¡Se acabaron los intentos! El número correcto era {numero_secreto}.")
 
     mensaje_despedida()
 
 def mensaje_despedida():
-    print("\n¡Gracias por jugar! ¡Vuelve pronto!")
+    print("\n¡Gracias por jugar! ¡Hasta la próxima!")
