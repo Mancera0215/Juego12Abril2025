@@ -1,18 +1,17 @@
-# juego_con_rango_dinamico.py
+# juego_con_superpoderes.py
 from utils import generar_numero_aleatorio
 
 def iniciar_juego():
-    print("🎯 ¡Bienvenido al juego de adivinanza con rango dinámico!")
+    print("⚡ ¡Bienvenido al juego con superpoderes!")
     
-    # Definir el rango inicial
-    rango_min = 1
-    rango_max = 10
-    numero_secreto = generar_numero_aleatorio(rango_min, rango_max)
+    numero_secreto = generar_numero_aleatorio(1, 10)
     intentos = 0
+    intentos_maximos = 5
+    superpoder_usado = False
 
-    print(f"\nEstoy pensando en un número entre {rango_min} y {rango_max}. ¡Adivina cuál es!")
+    print(f"\nTienes {intentos_maximos} intentos para adivinar el número entre 1 y 10. Usa tus superpoderes sabiamente.")
 
-    while True:
+    while intentos < intentos_maximos:
         intento = input("Tu número: ")
 
         if not intento.isdigit():
@@ -26,20 +25,40 @@ def iniciar_juego():
             print(f"🎉 ¡Felicidades! Adivinaste el número en {intentos} intento(s).")
             break
         else:
-            if numero_adivinado < numero_secreto:
-                print(f"Demasiado bajo. Rango actual: {rango_min} - {rango_max}")
-            elif numero_adivinado > numero_secreto:
-                print(f"Demasiado alto. Rango actual: {rango_min} - {rango_max}")
+            print(f"Intento {intentos}: No es el número secreto.")
         
-        # Reducir el rango después de cada intento fallido
-        if intentos == 3:
-            print("\n⚠️ ¡Primer fallo! El rango se reducirá.")
-            rango_max = (rango_min + rango_max) // 2
-        elif intentos == 5:
-            print("\n⚠️ ¡Segundo fallo! El rango se reduce más aún.")
-            rango_min = (rango_min + rango_max) // 2
+            # Si el jugador no ha usado el superpoder, le preguntamos si quiere usarlo
+            if not superpoder_usado:
+                usar_superpoder = input("¿Quieres usar tu superpoder? (sí/no): ").lower()
+                if usar_superpoder == 'sí':
+                    superpoder_usado = True
+                    print("🔮 ¡Usaste el superpoder!")
+                    superpoder()
+                
+            if intentos == intentos_maximos:
+                print(f"\n❌ Se acabaron los intentos. El número secreto era {numero_secreto}.")
+                break
 
-        numero_secreto = generar_numero_aleatorio(rango_min, rango_max)  # Generar nuevo número dentro del nuevo rango
+def superpoder():
+    print("\n¡Tienes un superpoder disponible! Estas son tus opciones:")
+    print("1. Obtener una pista sobre el número secreto.")
+    print("2. Obtener un intento adicional.")
+    print("3. Cambiar el rango del número secreto.")
+    
+    opcion = input("Elige tu superpoder (1/2/3): ")
+
+    if opcion == '1':
+        print("💡 Pista: El número es impar." if generar_numero_aleatorio(1, 10) % 2 == 1 else "💡 Pista: El número es par.")
+    elif opcion == '2':
+        print("🎉 ¡Has obtenido un intento adicional!")
+        global intentos_maximos
+        intentos_maximos += 1
+    elif opcion == '3':
+        print("🔄 El rango se ha cambiado de 1-10 a 1-5.")
+        global numero_secreto
+        numero_secreto = generar_numero_aleatorio(1, 5)
+    else:
+        print("Opción no válida, intenta de nuevo.")
 
 def mensaje_despedida():
-    print("\n¡Gracias por jugar! ¡Nos vemos en la próxima!")
+    print("\n¡Gracias por jugar! ¡Nos vemos en la próxima aventura con superpoderes!")
