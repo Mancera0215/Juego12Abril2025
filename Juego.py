@@ -1,49 +1,35 @@
-# juego_competencia.py
+# juego_con_intentos_limitados.py
 from utils import generar_numero_aleatorio
-import random
 
 def iniciar_juego():
-    print("🏁 ¡Bienvenido al juego de adivinanza contra la computadora!")
-    rango_min = 1
-    rango_max = 10
-    numero_secreto = generar_numero_aleatorio(rango_min, rango_max)
+    print("🎯 ¡Bienvenido al desafío de adivinar el número!")
+    numero_secreto = generar_numero_aleatorio(1, 10)
+    intentos_maximos = 5
+    intentos = 0
 
-    intentos_jugador = 0
-    intentos_computadora = 0
-    opciones_pc = list(range(rango_min, rango_max + 1))
+    print(f"Estoy pensando en un número entre 1 y 10. Tienes {intentos_maximos} intentos para adivinarlo.\n")
 
-    print(f"\nEstoy pensando en un número entre {rango_min} y {rango_max}.")
+    while intentos < intentos_maximos:
+        respuesta = input("Tu número: ")
 
-    while True:
-        # Turno del jugador
-        intento = input("Tu turno (elige un número): ")
-        if not intento.isdigit():
-            print("Por favor, ingresa un número válido.\n")
+        if not respuesta.isdigit():
+            print("Por favor, escribe un número válido.\n")
             continue
 
-        numero_jugador = int(intento)
-        intentos_jugador += 1
+        numero = int(respuesta)
+        intentos += 1
 
-        if numero_jugador == numero_secreto:
-            print(f"🎉 ¡Ganaste! Adivinaste en {intentos_jugador} intento(s).")
-            break
+        if numero < numero_secreto:
+            print("Muy bajo.\n")
+        elif numero > numero_secreto:
+            print("Muy alto.\n")
         else:
-            if numero_jugador < numero_secreto:
-                print("Muy bajo.\n")
-            else:
-                print("Muy alto.\n")
-
-        # Turno de la computadora
-        numero_pc = random.choice(opciones_pc)
-        opciones_pc.remove(numero_pc)
-        intentos_computadora += 1
-
-        print(f"🤖 La computadora intenta con: {numero_pc}")
-
-        if numero_pc == numero_secreto:
-            print(f"💻 ¡La computadora adivinó el número en {intentos_computadora} intento(s)!")
-            print("😢 Perdiste esta vez.")
+            print(f"🎉 ¡Correcto! Adivinaste el número en {intentos} intento(s).")
             break
+    else:
+        print(f"❌ Se acabaron los intentos. El número correcto era {numero_secreto}.")
+
+    mensaje_despedida()
 
 def mensaje_despedida():
-    print("\nGracias por jugar. ¡Nos vemos en la próxima competencia!")
+    print("\nGracias por jugar. ¡Vuelve pronto!")
