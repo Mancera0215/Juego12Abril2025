@@ -1,29 +1,32 @@
-# adivina_numero.py
+# adivina_numero_limitado.py
 from utils import generar_numero_aleatorio
 
 def iniciar_juego():
-    print("¡A ver si puedes adivinar el número que estoy pensando entre 1 y 10!")
+    print("¡Estoy pensando en un número entre 1 y 10!")
     numero_secreto = generar_numero_aleatorio(1, 10)
-    cantidad_intentos = 0
+    intentos_restantes = 5
 
-    adivinado = False
-    while not adivinado:
-        intento = input("Tu apuesta: ")
+    while intentos_restantes > 0:
+        intento = input(f"Te quedan {intentos_restantes} intento(s). Ingresa un número: ")
 
         if not intento.isdigit():
-            print("Eso no es un número válido. Intenta nuevamente.")
+            print("Entrada inválida. Por favor, escribe un número.")
             continue
 
         numero = int(intento)
-        cantidad_intentos += 1
 
         if numero < numero_secreto:
-            print("Muy bajo, prueba otra vez.\n")
+            print("Demasiado pequeño.\n")
         elif numero > numero_secreto:
-            print("Muy alto, intenta de nuevo.\n")
+            print("Demasiado grande.\n")
         else:
-            print(f"¡Correcto! Descubriste el número en {cantidad_intentos} intento(s).")
-            adivinado = True
+            print(f"¡Bien hecho! Adivinaste el número en {5 - intentos_restantes + 1} intento(s).")
+            break
+
+        intentos_restantes -= 1
+
+    else:
+        print(f"\n¡Se acabaron los intentos! El número era {numero_secreto}.")
 
 def mensaje_despedida():
-    print("\n¡Gracias por jugar! ¡Nos vemos pronto!")
+    print("\nGracias por jugar. ¡Vuelve pronto!")
